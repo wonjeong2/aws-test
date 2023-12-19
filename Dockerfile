@@ -1,15 +1,5 @@
-# JDK 17
-FROM openjdk:17-alpine
-
-# 8080 포트로 배포
-EXPOSE 8080
-
-# 작업 공간 이동
-WORKDIR /app
-# Jar 파일 경로
-ARG JAR_FILE_PATH=C:\\dev\\*.jar
-# Jar 파일 복제
-COPY ${JAR_FILE_PATH} app.jar
-
-# Jar 실행
-ENTRYPOINT ["java", "-jar", "app.jar"]
+FROM openjdk:17-jdk
+LABEL maintainer="email"
+ARG JAR_FILE=build/libs/docker-0.0.1-SNAPSHOT.jar
+ADD ${JAR_FILE} docker-springboot.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/docker-springboot.jar"]
